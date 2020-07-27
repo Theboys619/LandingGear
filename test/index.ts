@@ -1,6 +1,6 @@
-import { Path } from "./src/helpers.ts";
+import { Path } from "../src/helpers.ts";
 
-import landingGear from "./src/mod.ts";
+import landingGear from "../src/mod.ts";
 
 const router = landingGear.Router();
 
