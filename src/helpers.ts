@@ -41,6 +41,34 @@ export function convertExt(ext: string): string | void {
   }
 }
 
+export async function exists(filename: string): Promise<boolean> {
+  try {
+    await Deno.stat(Path.fromFileUrl(new URL(filename, import.meta.url).href));
+
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
+
+export function getRealpath(path: string | undefined, pathname: string) {
+  if (path == pathname) return true;
+  if (typeof path !== "string") return false;
+
+  path = path.replace(/^\/|\/$/g, "");
+  path = "/" + path;
+
+  let fixedPath = path.replace(/\/?\:[a-zA-Z0-9\!@\#\$%\^\*\(\)]+/g, "");
+  let pathLength = path.split("/").length-1;
+
+  if (path.includes("/:") && pathname.includes(fixedPath) && pathname.split("/").length-1 == pathLength) {
+    return path;
+  } else {
+    return false;
+  }
+}
+
 export {
   contentType,
   Path
