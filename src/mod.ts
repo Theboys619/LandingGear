@@ -73,25 +73,28 @@ export class App {
     }
   }
   
-  get(path: string, middleware: RequestCallback, cb?: RequestCallback): void;
-  get(path: string, middleware: LGMiddlewareErr, cb?: RequestCallback): void;
-  get(path: string, middleware: LGMiddleware, cb?: RequestCallback): void;
-  get(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void {
+  get(path: string, cb: RequestCallback): App;
+  get(path: string, middleware: LGMiddlewareErr, cb: RequestCallback): App;
+  get(path: string, middleware: LGMiddleware, cb: RequestCallback): App;
+  get(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): App {
     this.#createListener("GET", path, middleware, cb);
+    return this;
   }
 
-  post(path: string, middleware: RequestCallback, cb?: RequestCallback): void;
-  post(path: string, middleware: LGMiddlewareErr, cb?: RequestCallback): void;
-  post(path: string, middleware: LGMiddleware, cb?: RequestCallback): void;
-  post(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void {
+  post(path: string, cb: RequestCallback): App;
+  post(path: string, middleware: LGMiddlewareErr, cb: RequestCallback): App;
+  post(path: string, middleware: LGMiddleware, cb: RequestCallback): App;
+  post(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): App {
     this.#createListener("POST", path, middleware, cb);
+    return this;
   }
 
-  options(path: string, middleware: RequestCallback, cb?: RequestCallback): void;
-  options(path: string, middleware: LGMiddlewareErr, cb?: RequestCallback): void;
-  options(path: string, middleware: LGMiddleware, cb?: RequestCallback): void;
-  options(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void {
+  options(path: string, cb: RequestCallback): App;
+  options(path: string, middleware: LGMiddlewareErr, cb: RequestCallback): App;
+  options(path: string, middleware: LGMiddleware, cb: RequestCallback): App;
+  options(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): App {
     this.#createListener("OPTIONS", path, middleware, cb);
+    return this;
   }
 }
 
@@ -102,7 +105,7 @@ export class Router {
     this.#listeners = [];
   }
 
-  #createListener = (method: "GET" | "POST" | "OPTIONS", path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void => {
+  #createListener = (method: MethodTypes, path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void => {
     if (typeof cb == "function" && (isInstanceOfMiddleware(middleware) || isInstanceOfMiddlewareErr(middleware))) {
       this.#listeners.push({
         type: "request",
@@ -121,25 +124,28 @@ export class Router {
     }
   }
   
-  get(path: string, middleware: RequestCallback, cb?: RequestCallback): void;
-  get(path: string, middleware: LGMiddlewareErr, cb?: RequestCallback): void;
-  get(path: string, middleware: LGMiddleware, cb?: RequestCallback): void;
-  get(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void {
+  get(path: string, cb: RequestCallback): Router;
+  get(path: string, middleware: LGMiddlewareErr, cb: RequestCallback): Router;
+  get(path: string, middleware: LGMiddleware, cb: RequestCallback): Router;
+  get(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): Router {
     this.#createListener("GET", path, middleware, cb);
+    return this;
   }
 
-  post(path: string, middleware: RequestCallback, cb?: RequestCallback): void;
-  post(path: string, middleware: LGMiddlewareErr, cb?: RequestCallback): void;
-  post(path: string, middleware: LGMiddleware, cb?: RequestCallback): void;
-  post(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void {
+  post(path: string, cb: RequestCallback): Router;
+  post(path: string, middleware: LGMiddlewareErr, cb: RequestCallback): Router;
+  post(path: string, middleware: LGMiddleware, cb: RequestCallback): Router;
+  post(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): Router {
     this.#createListener("POST", path, middleware, cb);
+    return this;
   }
 
-  options(path: string, middleware: RequestCallback, cb?: RequestCallback): void;
-  options(path: string, middleware: LGMiddlewareErr, cb?: RequestCallback): void;
-  options(path: string, middleware: LGMiddleware, cb?: RequestCallback): void;
-  options(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void {
+  options(path: string, cb: RequestCallback): Router;
+  options(path: string, middleware: LGMiddlewareErr, cb: RequestCallback): Router;
+  options(path: string, middleware: LGMiddleware, cb: RequestCallback): Router;
+  options(path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): Router {
     this.#createListener("OPTIONS", path, middleware, cb);
+    return this;
   }
 
   getListeners() {
