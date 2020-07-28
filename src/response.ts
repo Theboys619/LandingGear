@@ -10,13 +10,16 @@ export class Response {
   req: ServerRequest;
   headers: Headers;
   method: string;
+  status: number;
   [x: string]: any;
 
   constructor (req: ServerRequest, headers?: Headers) {
     this.req = req;
-
+    
     this.headers = (headers) ? headers : (req.headers) ? new Headers(req.headers) : new Headers();
     this.method = req.method ?? "GET";
+    
+    this.status = 404;
   }
 
   setContentType(header: string, type: any) {
@@ -47,7 +50,8 @@ export class Response {
   }
   
   send(data: any, status?: number, type?: string): boolean {
-    if (!status) status = 200;
+    if (!status) this.status = 200;
+    else this.status = status;
     if (typeof data == "object" || type == "object") {
       data = JSON.stringify(data);
       if (!type)
@@ -62,7 +66,12 @@ export class Response {
 
     this.setContentType("Content-Type", type);
 
-    this.req.respond({ body: data, headers: this.headers, status });
+    this.req.respond({ body: data, headers: this.headers, status: this.status });
     return true;
+  }
+
+  setStatus(status: number): Response {
+    this.status = status;
+    return this;
   }
 }
