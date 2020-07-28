@@ -148,6 +148,20 @@ export class Router {
     return this.#options;
   }
 
+  use(middleware: LGMiddleware): void;
+  use(middleware: LGMiddleware): void;
+  use(middleware: Router): void;
+  use(middleware: LGMiddleware | LGMiddlewareErr | Router): void {
+    if (middleware instanceof Router) {
+      this.#listeners = this.#listeners.concat(middleware.getListeners());
+    } else {
+      this.#listeners.push({
+        type: "middleware",
+        middleware
+      }); 
+    }
+  }
+
   #createListener = (method: MethodTypes, path: string, middleware: LGMiddleware | LGMiddlewareErr | RequestCallback, cb?: RequestCallback): void => {
     if (typeof cb == "function" && (isInstanceOfMiddleware(middleware) || isInstanceOfMiddlewareErr(middleware))) {
       this.#listeners.push({
