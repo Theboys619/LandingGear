@@ -2,8 +2,6 @@ import { Path } from "../src/helpers.ts";
 
 import landingGear from "../src/mod.ts";
 
-const router = landingGear.Router();
-
 const app = landingGear();
 const port = 8080;
 
@@ -19,6 +17,8 @@ app.use(function (req, res, next) {
 
   next();
 });
+
+app.createWorker("GET", "/test", "../test/routes.ts");
 
 app.get("/", function (req, res) {
   res.renderHtml("index");
