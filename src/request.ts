@@ -95,8 +95,6 @@ export class HTTPRequest {
           return;
       }
 
-
-
       if (!self.headersSent && listener.type == "request" && listener.method == self.method && self.getRealpath(listener.path)) {
 
         if (listener.middleware) {
